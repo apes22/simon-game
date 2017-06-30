@@ -16,7 +16,7 @@ function simonGame(){
 	this.endOfCurrentSeries = false;
 }
 
-//A method to create a random button press
+//A method to create a random button press and returns the new series
  simonGame.prototype.createNextStep = function(){
 	var randomStep = Math.floor(Math.random()*4);
 	this.pattern.push(randomStep);
@@ -41,6 +41,12 @@ simonGame.prototype.setWrongMove = function(){
 	this.nextStepPointer = 0;
 };
 
+simonGame.prototype.reset = function(){
+	this.pattern = [];
+	this.nextStepPointer = 0;
+	this.isRunning = false;
+	this.endOfCurrentSeries = false;
+};
 
 
 //model layer
@@ -65,9 +71,9 @@ var controller = {
 		}
 	},
 	addStep: function(){
-
 		//disable button presses
 		console.log("Buttons to press in order are", model.game.createNextStep());
+		console.log("Current number of steps: ", model.game.pattern.length);
 		//The program wil present the current series of presses
 		//show the new number of steps
 		//enable button presses
@@ -80,26 +86,25 @@ var controller = {
 			//check if the player completed the series of steps
 			if (model.game.endOfCurrentSeries){
 				//add additional step
-				console.log("Who you completed the series of steps. Adding an additional step");
+				console.log("Wooo! You completed the series of steps. Adding an additional step");
 				//clear the pointer as well as the 
 				return this.addStep();
 			}
-			console.log("Correct! Keep going!");
-			return;
+			return	console.log("Correct! Keep going!");
 		}
 		else{
-		
-			console.log("Wrong move. Try again");
+			if (model.game.strictMode){
+				model.game.reset();
+				console.log("Wrong move :( Restarting game with a single step");
+				this.startGame();
+
+			}else{
+				console.log("Wrong move. Try again");
 			//Notify the user they pressed the wrong button 
 			//repeat the series of button presses to remind the player of the patter
+			}
+
 		}
-		
 	}
 }
-
 controller.initializeGame();
-
-//Method needs:
-//A method to check whether the series of button pressed
-	// by the players matches the current pattern
-	//
