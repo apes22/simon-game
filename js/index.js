@@ -58,24 +58,25 @@ var controller = {
 	},
 	//When someone presses a start button, the program to create a button press
 	startGame: function(){
-		if (!model.game.isRunning){
+		if (!model.game.gameStarted){
 			model.game.gameStarted = true;
 			console.log("startedGame!");
-		this.addStep();
+			this.addStep();
 		}
 	},
 	addStep: function(){
 		//disable button presses
+		view.disableGameWell();
 		console.log("Buttons to press in order are", model.game.createNextStep());
 		console.log("Current number of steps: ", model.game.pattern.length);
 		//The program wil present the current series of presses
 		//show the new number of steps
 		//enable button presses
+		view.enableGameWell();
 	},
 	//When the user presses a button, it will check that it is the correct next Step
 	///If the user presses all of the correct button presses, then it will create add an additional button press.
 	checkPress: function(buttonPress){
-		console.log(buttonPress)
 		var isPressCorrect = model.game.play(buttonPress);
 		if (isPressCorrect){
 			//check if the player completed the series of steps
@@ -120,7 +121,14 @@ var view = {
     		this.style.opacity = 0.8;
      });
   	}
-  }
+  },
+  disableGameWell: function(){
+  	document.getElementsByClassName('game-well')[0].classList.add('disable-events')
+  },
+  enableGameWell: function(){
+  	document.getElementsByClassName('game-well')[0].classList.remove('disable-events')
+  },
+
 };
 controller.initializeGame();
 view.setUpEventListeners();
