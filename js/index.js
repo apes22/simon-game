@@ -3,16 +3,10 @@ const WINNING_STEPS = 20;
 
 //simonGame class
 function simonGame(){
-	//A variable to repreent whether the game is in strict mode
-	this.strictMode = false;
-	//A variable to hold the pattern
 	this.pattern = [];
-	//a variable to represent the position of the nexStepPosition
+	this.strictMode = false;
 	this.nextStepPointer = 0;
-	//A variable that represents steps that are in the current series of button presess
-	//could be the length of the pattern array
-	//a variable to represent whether the game has started
-	this.isRunning = false;
+	this.gameStarted = false;
 	this.endOfCurrentSeries = false;
 }
 
@@ -20,7 +14,7 @@ function simonGame(){
  simonGame.prototype.createNextStep = function(){
 	var randomStep = Math.floor(Math.random()*4);
 	this.pattern.push(randomStep);
-	this.nextStepPointer = 0;
+	this.resetStepPointer();
 	this.endOfCurrentSeries = false;
 	return this.pattern;
 };
@@ -32,20 +26,20 @@ simonGame.prototype.play = function(buttonPress){
 		return true;
 		//It was a bad press, so move pointer back to 0.
 	}else{
-		this.nextStepPointer=0;
+		this.resetStepPointer();
 	}
 	return false;
 };
 
-simonGame.prototype.setWrongMove = function(){
+simonGame.prototype.resetStepPointer = function(){
 	this.nextStepPointer = 0;
 };
 
 simonGame.prototype.reset = function(){
 	this.pattern = [];
-	this.nextStepPointer = 0;
-	this.isRunning = false;
+	this.gameStarted = false;
 	this.endOfCurrentSeries = false;
+	this.resetStepPointer();
 };
 
 
@@ -65,7 +59,7 @@ var controller = {
 	//When someone presses a start button, the program to create a button press
 	startGame: function(){
 		if (!model.game.isRunning){
-			model.game.isRunning = true;
+			model.game.gameStarted = true;
 			console.log("startedGame!");
 		this.addStep();
 		}
@@ -80,8 +74,9 @@ var controller = {
 	},
 	//When the user presses a button, it will check that it is the correct next Step
 	///If the user presses all of the correct button presses, then it will create add an additional button press.
-	checkPress: function(buttonPres){
-		var isPressCorrect = model.game.play(buttonPres);
+	checkPress: function(buttonPress){
+		console.log(buttonPress)
+		var isPressCorrect = model.game.play(buttonPress);
 		if (isPressCorrect){
 			//check if the player completed the series of steps
 			if (model.game.endOfCurrentSeries){
@@ -103,8 +98,29 @@ var controller = {
 			//Notify the user they pressed the wrong button 
 			//repeat the series of button presses to remind the player of the patter
 			}
-
 		}
 	}
-}
+};
+
+var view = {
+  setUpEventListeners: function(){
+  	var gameWell = document.getElementsByClassName('game-well')[0];
+  	var buttonList = gameWell.querySelectorAll("button")
+
+  	for (var i = 0; i < buttonList.length; i++) {
+  		buttonList[i].addEventListener("click", function(){
+    		controller.checkPress(parseInt(this.value));
+     	});
+  	
+  		buttonList[i].addEventListener("mouseover", function(){
+    		this.style.opacity = 1.0;
+     	});
+
+  		buttonList[i].addEventListener("mouseleave", function(){
+    		this.style.opacity = 0.8;
+     });
+  	}
+  }
+};
 controller.initializeGame();
+view.setUpEventListeners();
