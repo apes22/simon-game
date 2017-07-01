@@ -1,32 +1,33 @@
 html,
 body{ 
-  height: 100%;
-  margin: 0;
+ height: 100%;
+ margin: 0;
+ 
 }
-
 
 .container{
 	height: 100%;
 	width: 100%;
-	margin: auto;
+	margin:auto;
 	background-color: orange;
+	text-align: center;
 }
+
 
 .game-well{
 	background-color: black;
-	height: 250px;
-	width: 250px;
+	height: 350px;
+	width: 350px;
 	margin: auto;
 }
 
-button{
+.game-well>button{
 	opacity: 0.8;
 	width: 49%;
 	height: 49%;
 	cursor:pointer;
 	-webkit-appearance: none;
 	box-sizing: border-box;
-
 }
 
 .disable-events{
@@ -44,11 +45,12 @@ button{
 }
 .blue{
 	background-color: blue;
-	border-bottom-left-radius: 100%;
+	border-bottom-right-radius: 100%;
 }
 .yellow{
 	background-color: yellow;
-	border-bottom-right-radius: 100%;
+	
+	border-bottom-left-radius: 100%;
 }
 
 
