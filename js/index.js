@@ -42,6 +42,12 @@ simonGame.prototype.reset = function(){
 	this.resetStepPointer();
 };
 
+simonGame.prototype.toggleStrictMode = function(){
+	this.strictMode = !this.strictMode;
+	console.log( this.strictMode);
+};
+
+
 
 //model layer
 var model = {
@@ -63,6 +69,15 @@ var controller = {
 			console.log("startedGame!");
 			this.addStep();
 		}
+	},
+	toggleStrictMode: function(){
+		model.game.toggleStrictMode();
+	},
+	resetGame: function(){
+		console.log("Resetting game.")
+		model.game.reset();
+		this.startGame();
+
 	},
 	addStep: function(){
 		//disable button presses
@@ -121,7 +136,24 @@ var view = {
     		this.style.opacity = 0.8;
      });
   	}
+
+  	var startBtn = document.getElementsByClassName('startBtn')[0];
+  	var toggleStrictMode = document.getElementsByClassName('toggleStrictMode')[0];
+  	var resetBtn = document.getElementsByClassName('resetBtn')[0];
+
+  	startBtn.addEventListener("click", function(){
+    		controller.startGame();
+     });
+  	
+  	toggleStrictMode.addEventListener("click", function(){
+    		controller.toggleStrictMode();
+    });
+
+  	resetBtn.addEventListener("click", function(){
+    		controller.resetGame();
+     });
   },
+
   disableGameWell: function(){
   	document.getElementsByClassName('game-well')[0].classList.add('disable-events')
   },
