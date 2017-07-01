@@ -1,0 +1,50 @@
+html,
+body{ 
+  height: 100%;
+  margin: 0;
+}
+
+
+.container{
+	height: 100%;
+	width: 100%;
+	margin: auto;
+	background-color: orange;
+}
+
+.game-well{
+	background-color: black;
+	height: 250px;
+	width: 250px;
+	margin: auto;
+}
+
+button{
+	opacity: 0.8;
+	width: 49%;
+	height: 49%;
+	cursor:pointer;
+	-webkit-appearance: none;
+	box-sizing: border-box;
+}
+
+.green{
+	background-color: green;
+	border-top-left-radius: 100%;
+}
+
+.red{
+	background-color: red;
+	border-top-right-radius: 100%;
+}
+.blue{
+	background-color: blue;
+	border-bottom-left-radius: 100%;
+}
+.yellow{
+	background-color: yellow;
+	border-bottom-right-radius: 100%;
+}
+
+
+
