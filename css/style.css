@@ -26,6 +26,11 @@ button{
 	cursor:pointer;
 	-webkit-appearance: none;
 	box-sizing: border-box;
+
+}
+
+.disable-events{
+ pointer-events:none
 }
 
 .green{
