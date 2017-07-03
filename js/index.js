@@ -47,8 +47,6 @@ simonGame.prototype.toggleStrictMode = function(){
 	console.log( this.strictMode);
 };
 
-
-
 //model layer
 var model = {
 	game: {},
@@ -62,7 +60,6 @@ var controller = {
 	initializeGame: function(){
 		model.setupGame();
 	},
-	//When someone presses a start button, the program to create a button press
 	startGame: function(){
 		if (!model.game.gameStarted){
 			model.game.gameStarted = true;
@@ -70,24 +67,33 @@ var controller = {
 			this.addStep();
 		}
 	},
-	toggleStrictMode: function(){
-		model.game.toggleStrictMode();
-	},
 	resetGame: function(){
 		console.log("Resetting game.")
 		model.game.reset();
 		this.startGame();
-
+	},
+	toggleStrictMode: function(){
+		model.game.toggleStrictMode();
 	},
 	addStep: function(){
 		//disable button presses
 		view.disableGameWell();
-		console.log("Buttons to press in order are", model.game.createNextStep());
+		var updatedSteps = model.game.createNextStep();
+		console.log("Buttons to press in order are", updatedSteps);
+
+		//The method wil present the current series of presses
+			var i = 0;
+			var intervalID = setInterval(function(){
+				if (i < updatedSteps.length){
+					view.showStep(updatedSteps[i]);
+					console.log(updatedSteps[i]);
+					i++;
+				}else{
+					clearInterval(intervalID);
+					view.enableGameWell();
+				}	
+			}.bind(this),1000);
 		console.log("Current number of steps: ", model.game.pattern.length);
-		//The program wil present the current series of presses
-		//show the new number of steps
-		//enable button presses
-		view.enableGameWell();
 	},
 	//When the user presses a button, it will check that it is the correct next Step
 	///If the user presses all of the correct button presses, then it will create add an additional button press.
@@ -126,6 +132,9 @@ var view = {
   	for (var i = 0; i < buttonList.length; i++) {
   		buttonList[i].addEventListener("click", function(){
     		controller.checkPress(parseInt(this.value));
+    		var mp3val = parseInt(this.value) + parseInt(1);
+    		var snd = new Audio("https://s3.amazonaws.com/freecodecamp/simonSound" + mp3val + ".mp3");
+        snd.play();
      	});
   	
   		buttonList[i].addEventListener("mouseover", function(){
@@ -133,7 +142,7 @@ var view = {
      	});
 
   		buttonList[i].addEventListener("mouseleave", function(){
-    		this.style.opacity = 0.8;
+    		this.style.opacity = 0.5;
      });
   	}
 
@@ -160,7 +169,19 @@ var view = {
   enableGameWell: function(){
   	document.getElementsByClassName('game-well')[0].classList.remove('disable-events')
   },
+  showStep: function(step){
+	  var gameWell = document.getElementsByClassName('game-well')[0];
+  	var buttonList = gameWell.querySelectorAll("button")
 
+  	//remove full opacity from buttons inside game-well
+  	for (var i=0; i<buttonList.length;i++){
+  		buttonList[i].style.opacity = 0.5;
+
+  	}
+  	//highlight current corresponding button 
+  	buttonList[step].style.opacity = 1.0;
+  }
 };
+
 controller.initializeGame();
 view.setUpEventListeners();
