@@ -8,6 +8,7 @@ function simonGame(){
 	this.nextStepPointer = 0;
 	this.gameStarted = false;
 	this.endOfCurrentSeries = false;
+	this.intervalID = "";
 }
 
 //A method to create a random button press and returns the new series
@@ -69,6 +70,7 @@ var controller = {
 	},
 	resetGame: function(){
 		console.log("Resetting game.")
+		clearInterval(model.game.intervalID);
 		model.game.reset();
 		this.startGame();
 	},
@@ -76,20 +78,23 @@ var controller = {
 		model.game.toggleStrictMode();
 	},
 	addStep: function(){
+		var updatedSteps = model.game.createNextStep();
+		this.showSteps(updatedSteps);
+	},
+	showSteps: function(steps){
 		//disable button presses
 		view.disableGameWell();
-		var updatedSteps = model.game.createNextStep();
-		console.log("Buttons to press in order are", updatedSteps);
-
+		console.log("Buttons to press in order are", steps);
 		//The method wil present the current series of presses
 			var i = 0;
-			var intervalID = setInterval(function(){
-				if (i < updatedSteps.length){
-					view.showStep(updatedSteps[i]);
-					console.log(updatedSteps[i]);
+			model.game.intervalID = setInterval(function(){
+				if (i < steps.length){
+
+					view.showStep(steps[i]);
+					console.log(steps[i]);
 					i++;
 				}else{
-					clearInterval(intervalID);
+					clearInterval(model.game.intervalID);
 					view.enableGameWell();
 				}	
 			}.bind(this),1000);
@@ -116,7 +121,9 @@ var controller = {
 				this.startGame();
 
 			}else{
+				this.showSteps(model.game.pattern);
 				console.log("Wrong move. Try again");
+
 			//Notify the user they pressed the wrong button 
 			//repeat the series of button presses to remind the player of the patter
 			}
@@ -172,14 +179,20 @@ var view = {
   showStep: function(step){
 	  var gameWell = document.getElementsByClassName('game-well')[0];
   	var buttonList = gameWell.querySelectorAll("button")
+  	
+  	this.resetOpacity(buttonList);
+  	//highlight current corresponding button 
+  	buttonList[step].style.opacity = 1.0;
 
+  	var mp3val = parseInt(step) + parseInt(1);
+    var snd = new Audio("https://s3.amazonaws.com/freecodecamp/simonSound" + mp3val + ".mp3");
+    snd.play();
+  },
+  resetOpacity: function(buttonList){
   	//remove full opacity from buttons inside game-well
   	for (var i=0; i<buttonList.length;i++){
   		buttonList[i].style.opacity = 0.5;
-
   	}
-  	//highlight current corresponding button 
-  	buttonList[step].style.opacity = 1.0;
   }
 };
 
