@@ -9,6 +9,7 @@ function simonGame(){
 	this.gameStarted = false;
 	this.endOfCurrentSeries = false;
 	this.intervalID = "";
+	this.timeoutID = "";
 }
 
 //A method to create a random button press and returns the new series
@@ -71,6 +72,7 @@ var controller = {
 	resetGame: function(){
 		console.log("Resetting game.")
 		clearInterval(model.game.intervalID);
+		clearTimeout(model.game.timeoutID);
 		model.game.reset();
 		this.startGame();
 	},
@@ -89,9 +91,8 @@ var controller = {
 			var i = 0;
 			model.game.intervalID = setInterval(function(){
 				if (i < steps.length){
-
 					view.showStep(steps[i]);
-					console.log(steps[i]);
+					model.game.timeoutID = setTimeout(this.callback,900, steps[i])
 					i++;
 				}else{
 					clearInterval(model.game.intervalID);
@@ -99,6 +100,10 @@ var controller = {
 				}	
 			}.bind(this),1000);
 		console.log("Current number of steps: ", model.game.pattern.length);
+	},
+	callback: function(step){
+						console.log(step);
+						view.resetOpacity(step);
 	},
 	//When the user presses a button, it will check that it is the correct next Step
 	///If the user presses all of the correct button presses, then it will create add an additional button press.
@@ -122,10 +127,9 @@ var controller = {
 
 			}else{
 				this.showSteps(model.game.pattern);
+				//Notify the user they pressed the wrong button by playing a noise
 				console.log("Wrong move. Try again");
-
-			//Notify the user they pressed the wrong button 
-			//repeat the series of button presses to remind the player of the patter
+				//repeat the series of button presses to remind the player of the patter
 			}
 		}
 	}
@@ -149,7 +153,7 @@ var view = {
      	});
 
   		buttonList[i].addEventListener("mouseleave", function(){
-    		this.style.opacity = 0.5;
+    		this.style.opacity = 0.6;
      });
   	}
 
@@ -171,16 +175,17 @@ var view = {
   },
 
   disableGameWell: function(){
-  	document.getElementsByClassName('game-well')[0].classList.add('disable-events')
+  	document.getElementsByClassName('game-well')[0].classList.add('disable-events');
+  	
+
   },
   enableGameWell: function(){
   	document.getElementsByClassName('game-well')[0].classList.remove('disable-events')
   },
   showStep: function(step){
-	  var gameWell = document.getElementsByClassName('game-well')[0];
+  	var gameWell = document.getElementsByClassName('game-well')[0];
   	var buttonList = gameWell.querySelectorAll("button")
-  	
-  	this.resetOpacity(buttonList);
+  	//this.resetOpacity(buttonList);
   	//highlight current corresponding button 
   	buttonList[step].style.opacity = 1.0;
 
@@ -188,11 +193,12 @@ var view = {
     var snd = new Audio("https://s3.amazonaws.com/freecodecamp/simonSound" + mp3val + ".mp3");
     snd.play();
   },
-  resetOpacity: function(buttonList){
+  resetOpacity: function(step){
   	//remove full opacity from buttons inside game-well
-  	for (var i=0; i<buttonList.length;i++){
-  		buttonList[i].style.opacity = 0.5;
-  	}
+  	var gameWell = document.getElementsByClassName('game-well')[0];
+  	var buttonList = gameWell.querySelectorAll("button");
+  	
+  	buttonList[step].style.opacity = 0.6;
   }
 };
 
