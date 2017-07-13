@@ -1,23 +1,34 @@
 <!DOCTYPE html>
 <html>
 <head>
-	 <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/style.css">
     <link href="https://fonts.googleapis.com/css?family=Play" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="http://csshake.surge.sh/csshake-slow.min.css">
 </head>
 <body>
 <div class="container">
 
- <div class="game-well circle-border disable-events right-shadow">
- <div class="center circle-border">
+ <div class="game-well circle-border center-shadow shake">
+  <div class="colored-btns disable-clicks">
+  <button class="green" value='0'></button>
+  <button class="red" value='1'></button>
+  <button class="yellow" value='2'></button>
+  <button class="blue" value='3'></button>
+  </div>
+ <div class="center circle-border shake-vertical">
    <h1 class="name">SIMON</h1>
+   <div class="row">
+
+   <h2 class="count-display" id="count">0</h2>
    <button class="startBtn">START</button>
    <button class="toggleStrictMode">STRICT</button>
+   </div>
+   <div class="row">
    <button class="resetBtn">RESET</button>
    </div>
-   <button class="green" value='0'></button>
-   <button class="red" value='1'></button>
-   <button class="yellow" value='2'></button>
-   <button class="blue" value='3'></button>
+   </div>
+   
+   
    
  </div>
  </div>
