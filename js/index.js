@@ -41,6 +41,7 @@ simonGame.prototype.reset = function(){
 	this.pattern = [];
 	this.gameStarted = false;
 	this.endOfCurrentSeries = false;
+	this.stirctMode = false;
 	this.resetStepPointer();
 };
 
@@ -70,12 +71,12 @@ var controller = {
 		}
 	},
 	resetGame: function(){
+
 		console.log("Resetting game.")
 
 		clearInterval(model.game.intervalID);
 		clearTimeout(model.game.timeoutID);
-
-		
+		view.showCount("--");
 		model.game.reset();
 		this.startGame();
 	},
@@ -91,12 +92,15 @@ var controller = {
 	showSteps: function(steps){
 		//disable button presses
 		view.disableColorBtns();
-		view.showCount(steps.length);
+		
 		console.log("Buttons to press in order are", steps);
 		//The method wil present the current series of presses
 			var i = 0;
 			model.game.intervalID = setInterval(function(){
 				if (i < steps.length){
+					if (i==0){
+					view.showCount(steps.length);
+					}
 					view.showStep(steps[i]);
 					model.game.timeoutID = setTimeout(function(step){
 							view.resetOpacity(step);
