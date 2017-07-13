@@ -1,4 +1,4 @@
-
+/**/
 body{ 
  font-family: 'Play', sans-serif !important; 
  height: 100vh;
@@ -29,44 +29,36 @@ body{
  width: 400px;
  margin: auto;
  margin-top: 20px;
-display: flex;
+}
+
+.colored-btns{
+ height: 100%;
+ width: 100%;
+ display: flex;
  display: -webkit-flex;
  -webkit-flex-wrap: wrap;
  flex-wrap: wrap;
  /*justify-content is used to align items in the container horizontally*/
  justify-content: space-around;
  /*align-items is used to align items in the container vertically*/
-  align-items: center;
+ align-items: center;
+ transition:0s;
+
 }
 
-.right-shadow{
-  box-shadow: 0px 0px 20px 12px rgba(204, 204, 204, 0.80);
-  -webkit-box-shadow: 0px 0px 20px 12px rgba(204, 204, 204, 0.80);
-  -moz-box-shadow:0px 0px 20px 12px rgba(204, 204, 204, 0.80);
+.center-shadow{
+  box-shadow: 0px 0px 20px 15px rgba(204, 204, 204, 0.80);
+  -webkit-box-shadow: 0px 0px 20px 15px rgba(204, 204, 204, 0.80);
+  -moz-box-shadow:0px 0px 20px 15px rgba(204, 204, 204, 0.80);
 }
 
-.game-well>button{
+
+.colored-btns>button{
 	width: 45%;
 	height: 45%;
 	cursor:pointer;
 	-webkit-appearance: none;
 	box-sizing: border-box;
-	position: relative;
-}
-
-.center2{
-  position: absolute;
-  display: flex;
-  display: -webkit-flex;
-  -webkit-flex-wrap: wrap;
-  flex-wrap: wrap;
-  height: 60%;
-  width: 60%;
-  border-radius: 100%;
-  background-color: white;
-  z-index: 1;
-  align-items: center;
-  justify-content: space-around;
 }
 
 .circle-border{
@@ -93,12 +85,20 @@ display: flex;
 
 .name{
 	margin-top: 15%;
+	margin-bottom: -10%;
 	font-size: 50px;
+}
+
+.count-display{
+	visibility: visible;
+	height: 20px;
+	color: blue;
 }
 
 .disable-clicks{
  pointer-events:none
 }
+
 
 .green{
 	background-color: #00a74a;
@@ -127,13 +127,12 @@ display: flex;
 .yellow{
 	background-color: #cca707;
 	border-bottom-left-radius: 100%;
-	 transition:0s 0.4s;
+	
 }
 
 .yellow.light, .yellow:active{
 	background-color: #ffd108;
-	 transition:0s;
-
+	
 }
 
 button{
