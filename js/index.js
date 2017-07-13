@@ -1,7 +1,4 @@
 //https://www.freecodecamp.com/challenges/build-a-simon-game
-//7.06: Reset opacity of all butons when the game buttons are disabled. Currently if a button is hovered over, it will stay
-//at 1 opacity even though its supposed to be at original opacity.""
-
 const WINNING_STEPS = 20;
 
 //simonGame class
@@ -87,30 +84,30 @@ var controller = {
 	},
 	addStep: function(){
 		var updatedSteps = model.game.createNextStep();
+		
 		this.showSteps(updatedSteps);
 		
 	},
 	showSteps: function(steps){
 		//disable button presses
-		view.disableGameWell();
-
+		view.disableColorBtns();
+		view.showCount(steps.length);
 		console.log("Buttons to press in order are", steps);
 		//The method wil present the current series of presses
 			var i = 0;
 			model.game.intervalID = setInterval(function(){
 				if (i < steps.length){
 					view.showStep(steps[i]);
-					model.game.timeoutID = setTimeout(this.callback,800, steps[i])
+					model.game.timeoutID = setTimeout(function(step){
+							view.resetOpacity(step);
+					},800, steps[i])
 					i++;
 				}else{
 					clearInterval(model.game.intervalID);
-					view.enableGameWell();
+					view.enableColorBtns();
 				}	
 			}.bind(this),1000);
 		console.log("Current number of steps: ", model.game.pattern.length);
-	},
-	callback: function(step){
-						view.resetOpacity(step);
 	},
 	//When the user presses a button, it will check that it is the correct next Step
 	///If the user presses all of the correct button presses, then it will create add an additional button press.
@@ -132,12 +129,17 @@ var controller = {
 				model.game.reset();
 				console.log("Wrong move :( Restarting game with a single step");
 				this.startGame();
-
 			}else{
-				this.showSteps(model.game.pattern);
 				//Notify the user they pressed the wrong button by playing a noise
 				console.log("Wrong move. Try again");
-				//repeat the series of button presses to remind the player of the patter
+				view.disableColorBtns();
+				view.showWrongMove();
+				//view.hideWrongMove();
+				var t2 = setTimeout(function(){
+								view.showWrongMove();
+								//repeat the series of button presses to remind the player of the patter
+								this.showSteps(model.game.pattern);
+				}.bind(this),800);			
 			}
 		}
 	}
@@ -145,10 +147,13 @@ var controller = {
 
 var view = {
   setUpEventListeners: function(){
-  	var gameWell = document.getElementsByClassName('game-well')[0];
-  	var buttonList = gameWell.querySelectorAll("button")
+  	var colorBtns = document.getElementsByClassName('colored-btns')[0];
+  	var buttonList = colorBtns.querySelectorAll("button");
+
 
   	for (var i = 0; i < buttonList.length; i++) {
+  		console.log(buttonList[i]);
+  		console.dir(buttonList[i])
   		buttonList[i].addEventListener("click", function(){
     		controller.checkPress(parseInt(this.value));
     		//this.classList.add("light");
@@ -175,14 +180,26 @@ var view = {
      });
   },
 
-  disableGameWell: function(){
-  	document.getElementsByClassName('game-well')[0].classList.add('disable-clicks');
+  disableColorBtns: function(){
+  	document.getElementsByClassName('colored-btns')[0].classList.add('disable-clicks');
   },
-  enableGameWell: function(){
-  	document.getElementsByClassName('game-well')[0].classList.remove('disable-clicks')
+  enableColorBtns: function(){
+  	document.getElementsByClassName('colored-btns')[0].classList.remove('disable-clicks')
+  },
+  showCount: function(count){
+  	document.getElementById('count').innerHTML = count;
+  },
+  showWrongMove: function(){
+  	document.getElementsByClassName('game-well')[0].classList.add('shake-vertical');
+  	//want it to blink twice and then show 
+  	document.getElementById('count').innerHTML = "!!";
+  },
+  hideWrongMove: function(){
+  	//want it to blink twice and then show 
+  	document.getElementById('count').innerHTML = "";
   },
   showStep: function(step){
-  	var gameWell = document.getElementsByClassName('game-well')[0];
+  	var gameWell = document.getElementsByClassName('colored-btns')[0];
   	var buttonList = gameWell.querySelectorAll("button")
   	//this.resetOpacity(buttonList);
   	//highlight current corresponding button 
@@ -193,16 +210,13 @@ var view = {
     snd.play();
   },
   resetOpacity: function(step){
-  	//remove full opacity from buttons inside game-well
-  	var gameWell = document.getElementsByClassName('game-well')[0];
-  	var buttonList = gameWell.querySelectorAll("button");
+  	//remove full opacity from buttons inside colored-btns
+  	var colorBtns = document.getElementsByClassName('colored-btns')[0];
+  	var buttonList = colorBtns.querySelectorAll("button");
 
   	for (var i =0; i<buttonList.length; i++){
   			buttonList[i].classList.remove('light');
   	}
-  	
- 
-  	//console.log(buttonList[step]);
   }
 };
 
