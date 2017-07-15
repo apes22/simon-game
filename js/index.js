@@ -10,6 +10,7 @@ function simonGame(){
 	this.endOfCurrentSeries = false;
 	this.intervalID = "";
 	this.timeoutID = "";
+	this.isFinished = false;
 }
 
 //A method to create a random button press and returns the new series
@@ -77,8 +78,10 @@ var controller = {
 	resetGame: function(){
 		clearInterval(model.game.intervalID);
 		clearTimeout(model.game.timeoutID);
-		  view.resetOpacity();
+		view.resetOpacity();
 		model.game.reset();
+		view.showStrictMode(false);
+		console.log(model.game.strictMode);
 	},
 	/**This will be restartGame**/
 	startGame: function(){
@@ -88,11 +91,20 @@ var controller = {
 	 }
 	},
 	toggleStrictMode: function(){
+		if (model.game.gameON){
 		model.game.toggleStrictMode();
+		view.showStrictMode(model.game.strictMode);
+	}
 	},
 	addStep: function(){
+		if (model.isWinner){
+			view.showCount("YOU WON!")
+			this.startGame();
+				//display that someone won
+		}else{
 		var updatedSteps = model.game.createNextStep();
 		this.showSteps(updatedSteps);
+		}
 	},
 	showSteps: function(steps){
 		//disable button presses
@@ -113,7 +125,7 @@ var controller = {
 					clearInterval(model.game.intervalID);
 					view.enableColorBtns();
 				}	
-			}.bind(this),1000);
+			}.bind(this),900);
 	},
 	//When the user presses a button, it will check that it is the correct next Step
 	///If the user presses all of the correct button presses, then it will create add an additional button press.
@@ -124,7 +136,7 @@ var controller = {
 			//check if the player completed the series of steps
 			if (model.game.endOfCurrentSeries){
 				//add additional step
-				console.log("Wooo! You completed the series of steps. Adding an additional step");
+				//console.log("Wooo! You completed the series of steps. Adding an additional step");
 				//clear the pointer as well as the 
 				return this.addStep();
 			}
@@ -137,7 +149,7 @@ var controller = {
 				this.startGame();
 			}else{
 				//Notify the user they pressed the wrong button by playing a noise
-				console.log("Wrong move. Try again");
+				//console.log("Wrong move. Try again");
 				view.disableColorBtns();
 				view.showWrongMove();
 				//view.hideWrongMove();
@@ -196,6 +208,13 @@ var view = {
   hideWrongMove: function(){
   	//want it to blink twice and then show 
   	document.getElementById('count').innerHTML = "";
+  },
+  showStrictMode: function(flag){
+  	if (flag == true){
+  		document.getElementsByClassName('strictModeIndicator')[0].classList.add('led');
+  	}else{
+  		document.getElementsByClassName('strictModeIndicator')[0].classList.remove('led');
+  	}
   },
   showStep: function(step){
   	var gameWell = document.getElementsByClassName('colored-btns')[0];
