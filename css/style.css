@@ -94,7 +94,10 @@ body{
  /*justify-content is used to align items in the container horizontally*/
  justify-content: space-around;
  margin-bottom: 5px;
+ position: relative;
+
 }
+
 
 .display{
  height: 30px;
@@ -165,7 +168,7 @@ button::-moz-focus-inner {
 }
 
 .toggleStrictMode{
-background-color: red;
+ background-color: red;
 }
 
 
@@ -185,6 +188,12 @@ background-color: red;
  margin-top: 10px;
 }
 
+.strictModeIndicator{
+ height: 15px;
+ width: 15px;
+ background: black;
+}
+
 #count{
  height: 35px;
  font-size: 25px;
@@ -197,4 +206,8 @@ background-color: red;
 .label{
 font-size: 10px;
 margin-top: 0;
+}
+
+.led{
+	background: #9f0f17;
 }
