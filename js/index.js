@@ -79,7 +79,7 @@ var controller = {
 		clearInterval(model.game.intervalID);
 		clearTimeout(model.game.timeoutID);
 		view.resetOpacity();
-		model.game.reset();g
+		model.game.reset();
 		view.showStrictMode(false);
 		console.log(model.game.strictMode);
 	},
