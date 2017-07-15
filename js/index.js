@@ -6,7 +6,7 @@ function simonGame(){
 	this.pattern = [];
 	this.strictMode = false;
 	this.nextStepPointer = 0;
-	this.gameStarted = false;
+	this.gameON = false;
 	this.endOfCurrentSeries = false;
 	this.intervalID = "";
 	this.timeoutID = "";
@@ -47,7 +47,6 @@ simonGame.prototype.reset = function(){
 
 simonGame.prototype.toggleStrictMode = function(){
 	this.strictMode = !this.strictMode;
-	console.log( this.strictMode);
 };
 
 //model layer
@@ -63,37 +62,41 @@ var controller = {
 	initializeGame: function(){
 		model.setupGame();
 	},
-	startGame: function(){
-		if (!model.game.gameStarted){
-			model.game.gameStarted = true;
-			console.log("startedGame!");
-			this.addStep();
+	toggleTurnON: function(){
+		if (model.game.gameON){
+			model.game.gameON  = false;
+		  this.resetGame();
+
+			 view.showCount("")
+		}
+		else{
+			model.game.gameON  = true;
+			view.showCount("--")
 		}
 	},
 	resetGame: function(){
-
-		console.log("Resetting game.")
-
 		clearInterval(model.game.intervalID);
 		clearTimeout(model.game.timeoutID);
-		view.showCount("--");
+		  view.resetOpacity();
 		model.game.reset();
-		this.startGame();
+	},
+	/**This will be restartGame**/
+	startGame: function(){
+		if (model.game.gameON){
+			this.resetGame();
+		  this.addStep();
+	 }
 	},
 	toggleStrictMode: function(){
 		model.game.toggleStrictMode();
 	},
 	addStep: function(){
 		var updatedSteps = model.game.createNextStep();
-		
 		this.showSteps(updatedSteps);
-		
 	},
 	showSteps: function(steps){
 		//disable button presses
 		view.disableColorBtns();
-		
-		console.log("Buttons to press in order are", steps);
 		//The method wil present the current series of presses
 			var i = 0;
 			model.game.intervalID = setInterval(function(){
@@ -111,7 +114,6 @@ var controller = {
 					view.enableColorBtns();
 				}	
 			}.bind(this),1000);
-		console.log("Current number of steps: ", model.game.pattern.length);
 	},
 	//When the user presses a button, it will check that it is the correct next Step
 	///If the user presses all of the correct button presses, then it will create add an additional button press.
@@ -130,8 +132,8 @@ var controller = {
 		}
 		else{
 			if (model.game.strictMode){
+				view.showWrongMove();
 				model.game.reset();
-				console.log("Wrong move :( Restarting game with a single step");
 				this.startGame();
 			}else{
 				//Notify the user they pressed the wrong button by playing a noise
@@ -140,10 +142,9 @@ var controller = {
 				view.showWrongMove();
 				//view.hideWrongMove();
 				var t2 = setTimeout(function(){
-								view.showWrongMove();
 								//repeat the series of button presses to remind the player of the patter
-								this.showSteps(model.game.pattern);
-				}.bind(this),800);			
+						this.showSteps(model.game.pattern);
+				}.bind(this),1000);			
 			}
 		}
 	}
@@ -154,13 +155,9 @@ var view = {
   	var colorBtns = document.getElementsByClassName('colored-btns')[0];
   	var buttonList = colorBtns.querySelectorAll("button");
 
-
   	for (var i = 0; i < buttonList.length; i++) {
-  		console.log(buttonList[i]);
-  		console.dir(buttonList[i])
   		buttonList[i].addEventListener("click", function(){
     		controller.checkPress(parseInt(this.value));
-    		//this.classList.add("light");
     		var mp3val = parseInt(this.value) + parseInt(1);
     		var snd = new Audio("https://s3.amazonaws.com/freecodecamp/simonSound" + mp3val + ".mp3");
         snd.play();
@@ -169,7 +166,7 @@ var view = {
 
   	var startBtn = document.getElementsByClassName('startBtn')[0];
   	var toggleStrictMode = document.getElementsByClassName('toggleStrictMode')[0];
-  	var resetBtn = document.getElementsByClassName('resetBtn')[0];
+  	var toogleON = document.getElementsByClassName('toggleON')[0];
 
   	startBtn.addEventListener("click", function(){
     		controller.startGame();
@@ -179,8 +176,8 @@ var view = {
     		controller.toggleStrictMode();
     });
 
-  	resetBtn.addEventListener("click", function(){
-    		controller.resetGame();
+  	toogleON.addEventListener("click", function(){
+    		controller.toggleTurnON();
      });
   },
 
@@ -194,8 +191,6 @@ var view = {
   	document.getElementById('count').innerHTML = count;
   },
   showWrongMove: function(){
-  	document.getElementsByClassName('game-well')[0].classList.add('shake-vertical');
-  	//want it to blink twice and then show 
   	document.getElementById('count').innerHTML = "!!";
   },
   hideWrongMove: function(){
