@@ -67,8 +67,10 @@ var controller = {
 		if (model.game.gameON){
 			model.game.gameON  = false;
 		  this.resetGame();
-
-			 view.showCount("")
+		  view.showCount("");
+		  model.game.strictMode = false;
+		  view.showStrictMode(model.game.strictModee);
+		  console.log(model.game.strictMode);
 		}
 		else{
 			model.game.gameON  = true;
@@ -80,8 +82,7 @@ var controller = {
 		clearTimeout(model.game.timeoutID);
 		view.resetOpacity();
 		model.game.reset();
-		view.showStrictMode(false);
-		console.log(model.game.strictMode);
+	
 	},
 	/**This will be restartGame**/
 	startGame: function(){
