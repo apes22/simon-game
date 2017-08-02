@@ -86,8 +86,8 @@ body{
 
 .name{
   margin-top: 15%;
-  margin-bottom: 5px;
-  font-size: 46px;
+  margin-bottom: 3px;
+  font-size: 52px;
 }
 
 .row{
@@ -101,24 +101,20 @@ body{
  margin-top: 5px;
 }
 
-#count{
-  font-size: 20px;
-  vertical-align: baseline;
-}
-
 .display{
  width: 50px; 
  height: 30px; 
+ font-size: 20px;
+ color: #DC0D29;
  position: relative;
  border-style: solid;
  border-color: #333;
- border-radius: 15%;
+ border-radius: 10%;
  background: grey;
  display: flex;
  justify-content: space-around;
  align-items: center;
 }
-
 
 .disable-clicks{
  pointer-events:none
@@ -175,10 +171,9 @@ button::-moz-focus-inner {
  background-color: yellow;
 }
 
-.toggleStrictMode{
+.strictModeBtn{
   background-color: red;
 }
-
 
 .btn:active{
   box-shadow: 0 5px #666;
@@ -198,15 +193,16 @@ button::-moz-focus-inner {
 }
 
 .strictModeIndicator{
- height: 10px;
- width: 10px;
+ height: 7px;
+ width: 7px;
  border-color: #333;
  border-radius: 100%;
+ border-width: 1px;
+ border-style: solid;
  background: black;
  position: absolute;
- right: 24px;
+ right: 25px;
  bottom: -5px;
- 
 }
 
 
@@ -216,10 +212,13 @@ margin-top: 5px;
 
 }
 
-.led-background{
-	background: #9f0f17;
+.led{
+ background: #32050C;
 }
 
-.led-color{
-color: #9f0f17;
+.led-on{
+ background-color: #DC0D29;
 }
+
+
+
