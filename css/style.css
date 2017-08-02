@@ -1,3 +1,7 @@
+/*https://ghinda.net/css-toggle-switch/
+*/
+
+
 body{ 
  font-family: 'Play', sans-serif !important;
  font-weight: bold; 
@@ -18,6 +22,7 @@ body{
 .container{
  margin:auto;
  position: relative;
+ padding: 5px;
 
 }
 
@@ -159,7 +164,7 @@ button{
 	-webkit-appearance: none;
 }
 
-button:focus{
+button:focus {
 	outline: none !important;
 }
 
@@ -220,5 +225,9 @@ margin-top: 5px;
  background-color: #DC0D29;
 }
 
-
-
+.switch-light{
+width: 25%;
+height: 5px !important;
+font-size: 0.5em;
+font-family: inherit !important;
+}
