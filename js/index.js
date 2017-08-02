@@ -14,7 +14,7 @@ function simonGame(){
 }
 
 //A method to create a random button press and returns the new series
- simonGame.prototype.createNextStep = function(){
+simonGame.prototype.createNextStep = function(){
 	var randomStep = Math.floor(Math.random()*4);
 	this.pattern.push(randomStep);
 	this.resetStepPointer();
@@ -39,10 +39,16 @@ simonGame.prototype.resetStepPointer = function(){
 };
 
 simonGame.prototype.reset = function(){
+	this.gameON = false;
+	this.strictMode = false;
+	this.restart();
+};
+
+simonGame.prototype.restart = function(){
 	this.pattern = [];
-	this.gameStarted = false;
+	//this.gameStarted = false;
 	this.endOfCurrentSeries = false;
-	this.stirctMode = false;
+	//this.strictMode = false;
 	this.resetStepPointer();
 };
 
@@ -68,9 +74,9 @@ var controller = {
 			model.game.gameON  = false;
 		  this.resetGame();
 		  view.showCount("");
-		  model.game.strictMode = false;
-		  view.showStrictMode(model.game.strictModee);
 		  console.log(model.game.strictMode);
+		  //model.game.strictMode = false;
+		  view.showStrictMode(model.game.strictMode);
 		}
 		else{
 			model.game.gameON  = true;
@@ -87,7 +93,9 @@ var controller = {
 	/**This will be restartGame**/
 	startGame: function(){
 		if (model.game.gameON){
-			this.resetGame();
+			//instead of calling resetGame, we want to restartGame
+			//model.game.restart();
+			model.game.restart();
 		  this.addStep();
 	 }
 	},
@@ -99,9 +107,10 @@ var controller = {
 	},
 	addStep: function(){
 		if (model.isWinner){
-			view.showCount("YOU WON!")
-			this.startGame();
-				//display that someone won
+			view.showCount("YOU WON!");
+			model.game.timeoutID = setTimeout(function(){
+				this.startGame();
+			}.bind(this),1000);	
 		}else{
 		var updatedSteps = model.game.createNextStep();
 		this.showSteps(updatedSteps);
@@ -146,15 +155,15 @@ var controller = {
 		else{
 			if (model.game.strictMode){
 				view.showWrongMove();
-				model.game.reset();
+				//model.game.restart();
+				//model.game.reset();
 				this.startGame();
 			}else{
 				//Notify the user they pressed the wrong button by playing a noise
 				//console.log("Wrong move. Try again");
 				view.disableColorBtns();
 				view.showWrongMove();
-				//view.hideWrongMove();
-				var t2 = setTimeout(function(){
+				model.game.timeoutID = setTimeout(function(){
 								//repeat the series of button presses to remind the player of the patter
 						this.showSteps(model.game.pattern);
 				}.bind(this),1000);			
@@ -178,14 +187,14 @@ var view = {
   	}
 
   	var startBtn = document.getElementsByClassName('startBtn')[0];
-  	var toggleStrictMode = document.getElementsByClassName('toggleStrictMode')[0];
+  	var strictModeBtn = document.getElementsByClassName('strictModeBtn')[0];
   	var toogleON = document.getElementsByClassName('toggleON')[0];
 
   	startBtn.addEventListener("click", function(){
     		controller.startGame();
      });
   	
-  	toggleStrictMode.addEventListener("click", function(){
+  	strictModeBtn.addEventListener("click", function(){
     		controller.toggleStrictMode();
     });
 
