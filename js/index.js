@@ -188,7 +188,7 @@ var view = {
 
   	var startBtn = document.getElementsByClassName('startBtn')[0];
   	var strictModeBtn = document.getElementsByClassName('strictModeBtn')[0];
-  	var toogleON = document.getElementsByClassName('toggleON')[0];
+  	var toggleON = document.getElementsByClassName('toggleCheckBox')[0];
 
   	startBtn.addEventListener("click", function(){
     		controller.startGame();
@@ -198,7 +198,8 @@ var view = {
     		controller.toggleStrictMode();
     });
 
-  	toogleON.addEventListener("click", function(){
+  	toggleON.addEventListener("click", function(){
+  		console.log("switch-light element has been pressed");
     		controller.toggleTurnON();
      });
   },
