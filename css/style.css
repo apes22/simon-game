@@ -1,5 +1,6 @@
 body{ 
- font-family: 'Play', sans-serif !important; 
+ font-family: 'Play', sans-serif !important;
+ font-weight: bold; 
  height: 100vh;
  width: 100%;
  margin: 0;
@@ -36,9 +37,9 @@ body{
  display: -webkit-flex;
  -webkit-flex-wrap: wrap;
  flex-wrap: wrap;
- /*justify-content is used to align items in the container horizontally*/
+ /*justify-content is used to align items in the container vertically*/
  justify-content: space-around;
- /*align-items is used to align items in the container vertically*/
+ /*align-items is used to align items in the container horizaontal*/
  align-items: center;
 
 }
@@ -49,6 +50,9 @@ body{
   -moz-box-shadow:0px 0px 20px 15px rgba(204, 204, 204, 0.80);
 }
 
+.right-shadow{
+  box-shadow: 5px 5px 5px 0px rgba(204, 204, 204, 0.75);
+}
 
 .colored-btns>button{
 	width: 45%;
@@ -90,27 +94,33 @@ body{
  display: flex;
  display: -webkit-flex;
  -webkit-flex-wrap: wrap;
- flex-wrap: wrap;
- /*justify-content is used to align items in the container horizontally*/
+ /*justify-coflex-wrap: wrap;ntent is used to align items in the container vertically*/
  justify-content: space-around;
- margin-bottom: 5px;
- position: relative;
-
+ align-items: flex-end;
+ margin-top: 5px;
 }
 
+
+
+#count{
+ 
+ font-size: 20px;
+  vertical-align: baseline;
+}
 
 .display{
- height: 30px;
- width: 40px;
+ width: 55px; 
+ height: 30px; 
+  position: relative;
  border-style: solid;
  border-color: #333;
- border-radius: 4%;
+ border-radius: 15%;
  background: grey;
+  display: flex;
+ justify-content: space-around;
+ align-items: center;
 }
 
-.display > span{
-	font-size: 100%;
-}
 
 .disable-clicks{
  pointer-events:none
@@ -171,9 +181,7 @@ button::-moz-focus-inner {
  background-color: red;
 }
 
-
 .btn:active{
-  background-color: #3e8e41;
   box-shadow: 0 5px #666;
   transform: translateY(2px);
 }
@@ -185,29 +193,28 @@ button::-moz-focus-inner {
  border-style: solid;
  border-color: #333;
  border-radius: 100%;
- margin-top: 10px;
+
 }
 
 .strictModeIndicator{
- height: 15px;
- width: 15px;
+ height: 10px;
+ width: 10px;
  background: black;
+ position: absolute;
+ right: 0;
 }
 
-#count{
- height: 35px;
- font-size: 25px;
-}
-
-.display > p{
- margin-top: 5px;
-}
 
 .label{
 font-size: 10px;
-margin-top: 0;
+margin-top: 5px;
+
 }
 
-.led{
+.led-background{
 	background: #9f0f17;
+}
+
+.led-color{
+color: #9f0f17;
 }
