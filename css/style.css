@@ -174,12 +174,16 @@ button::-moz-focus-inner {
 }
 
 .startBtn{
+ 
  background-color: yellow;
+ 
+
 }
 
 .toggleStrictMode{
- background-color: red;
+  background-color: red;
 }
+
 
 .btn:active{
   box-shadow: 0 5px #666;
@@ -193,6 +197,8 @@ button::-moz-focus-inner {
  border-style: solid;
  border-color: #333;
  border-radius: 100%;
+ position: relative;
+ top: -5px;
 
 }
 
