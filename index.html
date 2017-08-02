@@ -1,47 +1,67 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <link rel="stylesheet" href="css/style.css">
-    <link href="https://fonts.googleapis.com/css?family=Play" rel="stylesheet">
+ <title>Simon Game</title>
+ <meta name="viewport" content="width=device-width, initial-scale=1.0">
+ <link rel="stylesheet" href="css/style.css">
+ <link href="https://fonts.googleapis.com/css?family=Play" rel="stylesheet">
 
 </head>
 <body>
 <div class="container">
 
- <div class="game-well circle-border">
+ <div class="game-well circle-border center-shadow">
   <div class="colored-btns disable-clicks">
   <button class="green" value='0'></button>
   <button class="red" value='1'></button>
   <button class="yellow" value='2'></button>
   <button class="blue" value='3'></button>
   </div>
- <div class="center circle-border shake-vertical">
+ <div class="center circle-border ">
    <h1 class="name">SIMON</h1>
+
    <div class="row">
-   
-     <div class="display column"> <p id="count"></p>
-     <p class="label">COUNT</p> 
-     </div>
-     <div>
-       <button class="startBtn btn"></button>
-    <p class="label">START</p> 
-    </div>
-   <div class="column">
-   <button class="strictModeIndicator btn"></button>
-    <button class="toggleStrictMode btn"></button>
-   <p class="label">STRICT</p> 
-   </div>
+     <div class="strictModeIndicator"></div>
    </div>
 
    <div class="row">
-  <div class="column">
+   
+   <div class="column">
+     <div class="display"> 
+       <span id="count" ></span>
+     </div>
+     <p class="label">COUNT</p> 
+  </div>
+
+
+     <div class="column">
+       <button class="startBtn btn"></button>
+      <p class="label">START</p> 
+     </div>
+     
+     <div class="column">
+      <button class="toggleStrictMode btn right-shadow"></button>
+      <p class="label">STRICT</p> 
+     </div>
+   </div>
+
+   <div class="row">
+  <div>
     <button class="toggleON btn"></button>
     <p class="label">ON/OFF</p>
     </div>
 
+
+
+   </div>
+
+    </div>
+    
    </div>
    </div>  
+  
    </div>
+
  </div>
 </body>
 
