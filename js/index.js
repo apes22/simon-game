@@ -221,9 +221,9 @@ var view = {
   },
   showStrictMode: function(flag){
   	if (flag == true){
-  		document.getElementsByClassName('strictModeIndicator')[0].classList.add('led');
+  		document.getElementsByClassName('strictModeIndicator')[0].classList.add('led-on');
   	}else{
-  		document.getElementsByClassName('strictModeIndicator')[0].classList.remove('led');
+  		document.getElementsByClassName('strictModeIndicator')[0].classList.remove('led-on');
   	}
   },
   showStep: function(step){
