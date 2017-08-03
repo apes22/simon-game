@@ -6,46 +6,38 @@
  <link rel="stylesheet" href="css/style.css">
  <link rel="stylesheet" type="text/css" href="css/css-toggle-switch/toggle-switch.css" >
  <link href="https://fonts.googleapis.com/css?family=Play" rel="stylesheet">
-
 </head>
 <body>
 <div class="container">
-
- <div class="game-well circle-border center-shadow">
+<div class="game-well circle-border center-shadow">
+  
   <div class="colored-btns disable-clicks">
   <button class="green" value='0'></button>
   <button class="red" value='1'></button>
   <button class="yellow" value='2'></button>
   <button class="blue" value='3'></button>
   </div>
- <div class="center circle-border ">
+ <div class="center circle-border">
    <h1 class="name">SIMON</h1>
-
    <div class="row">
      <div class="strictModeIndicator led"></div>
    </div>
-
    <div class="row">
-   
-   <div class="column">
-     <div class="display led"> 
-       <span id="count"></span>
-     </div>
-     <p class="label">COUNT</p> 
-  </div>
-
-
      <div class="column">
+       <div class="display led"> 
+        <span id="count"></span>
+     </div>
+      <p class="label">COUNT</p> 
+    </div>
+    <div class="column">
        <button class="startBtn btn right-shadow"></button>
-      <p class="label">START</p> 
-     </div>
-     
-     <div class="column">
+       <p class="label">START</p> 
+    </div>
+    <div class="column">
       <button class="strictModeBtn btn right-shadow"></button>
       <p class="label">STRICT</p> 
      </div>
    </div>
-
    <div class="row">
     <label class="switch-light switch-candy switch-candy-blue">
      <input type="checkbox" class="toggleCheckBox">
@@ -56,20 +48,14 @@
      </span>
     </label>
    </div>
-
-    </div>
-    
-   </div>
-   </div>  
-  
-   </div>
-
-   <div>
-  </div>
-
  </div>
+</div>
+<audio id="audio_0" src="https://s3.amazonaws.com/freecodecamp/simonSound1.mp3"></audio>
+<audio id="audio_1" src="https://s3.amazonaws.com/freecodecamp/simonSound2.mp3"></audio>
+<audio id="audio_2" src="https://s3.amazonaws.com/freecodecamp/simonSound3.mp3"></audio>
+<audio id="audio_3" src="https://s3.amazonaws.com/freecodecamp/simonSound4.mp3"></audio>
+</div>  
 </body>
-
 
 <script src="js/index.js"></script>
 </html>
