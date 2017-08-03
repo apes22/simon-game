@@ -168,14 +168,7 @@ button{
 	-webkit-appearance: none;
 }
 
-button:focus {
-	outline: none !important;
-	-webkit-appearance: none;
-}
 
-button::-moz-focus-inner {
-	border: 0;
-}
 
 .startBtn{
  background-color: yellow;
@@ -186,8 +179,17 @@ button::-moz-focus-inner {
 }
 
 .btn:active{
-  
-  transform: translateY(2px);
+  /*box-shadow: 0 5px #666;*/
+ /* transform: translateY(2px);*/
+}
+
+button:focus {
+	outline: none !important;
+	-webkit-appearance: none;
+}
+
+button::-moz-focus-inner {
+	border: 0;
 }
 
 .btn{
