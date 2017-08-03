@@ -1,13 +1,13 @@
 /*https://ghinda.net/css-toggle-switch/
 */
 
-
 body{ 
  font-family: 'Play', sans-serif !important;
  font-weight: bold; 
  height: 100vh;
  width: 100%;
  margin: 0;
+ padding: 0;
  background-image: url("../images/MinimalistPlants.jpg");
  background-position: center bottom;
  background-repeat: no-repeat;
@@ -20,12 +20,10 @@ body{
 }
 
 .container{
- margin:auto;
+ margin: auto;
  position: relative;
  height: 100%;
  width: 100%;
- padding: 5px;
-
 }
 
 .game-well{
@@ -74,6 +72,7 @@ body{
  border-style: solid;
  border-color: #333;
  border-radius: 100%;
+
 }
 
 .center{
@@ -214,10 +213,9 @@ button::-moz-focus-inner {
  bottom: -5px;
 }
 
-
 .label{
-font-size: 10px;
-margin-top: 5px;
+ font-size: 10px;
+ margin-top: 5px;
 
 }
 
@@ -239,7 +237,10 @@ font-family: inherit !important;
 /*any devices smaller than a tablet*/
 @media only screen and  (max-width:550px) {
   .game-well{
-    transform: scale(0.9);
+    -moz-transform: scale(0.8);
+    -ms-transform: scale(0.8);
+    -o-transform: scale(0.8);
+    -webkit-transform: scale(0.8);
+    transform: scale(0.8);   
   }
-
 }
