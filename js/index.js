@@ -1,5 +1,5 @@
 //https://www.freecodecamp.com/challenges/build-a-simon-game
-const WINNING_STEPS = 20;
+const WINNING_STEPS = 5;
 
 //simonGame class
 function simonGame(){
@@ -10,7 +10,7 @@ function simonGame(){
 	this.endOfCurrentSeries = false;
 	this.intervalID = "";
 	this.timeoutID = "";
-	this.isFinished = false;
+	this.isWinner = false;
 }
 
 //A method to create a random button press and returns the new series
@@ -46,9 +46,7 @@ simonGame.prototype.reset = function(){
 
 simonGame.prototype.restart = function(){
 	this.pattern = [];
-	//this.gameStarted = false;
 	this.endOfCurrentSeries = false;
-	//this.strictMode = false;
 	this.resetStepPointer();
 };
 
@@ -74,8 +72,6 @@ var controller = {
 			model.game.gameON  = false;
 		  this.resetGame();
 		  view.showCount("");
-		  console.log(model.game.strictMode);
-		  //model.game.strictMode = false;
 		  view.showStrictMode(model.game.strictMode);
 		}
 		else{
@@ -84,17 +80,17 @@ var controller = {
 		}
 	},
 	resetGame: function(){
+		this.clearStepsShows();
+		model.game.reset();
+	},
+	clearStepsShows: function(){
 		clearInterval(model.game.intervalID);
 		clearTimeout(model.game.timeoutID);
 		view.resetOpacity();
-		model.game.reset();
-	
 	},
-	/**This will be restartGame**/
 	startGame: function(){
 		if (model.game.gameON){
-			//instead of calling resetGame, we want to restartGame
-			//model.game.restart();
+		  this.clearStepsShows();
 			model.game.restart();
 		  this.addStep();
 	 }
@@ -103,7 +99,7 @@ var controller = {
 		if (model.game.gameON){
 		model.game.toggleStrictMode();
 		view.showStrictMode(model.game.strictMode);
-	}
+		}
 	},
 	addStep: function(){
 		if (model.isWinner){
@@ -116,10 +112,9 @@ var controller = {
 		this.showSteps(updatedSteps);
 		}
 	},
+	//The method wil present the current series of presses
 	showSteps: function(steps){
-		//disable button presses
 		view.disableColorBtns();
-		//The method wil present the current series of presses
 			var i = 0;
 			model.game.intervalID = setInterval(function(){
 				if (i < steps.length){
@@ -137,26 +132,19 @@ var controller = {
 				}	
 			}.bind(this),900);
 	},
-	//When the user presses a button, it will check that it is the correct next Step
+	//When the user presses a button, it will check whether it is the correct next Step
 	///If the user presses all of the correct button presses, then it will create add an additional button press.
 	checkPress: function(buttonPress){
 		var isPressCorrect = model.game.play(buttonPress);
-
 		if (isPressCorrect){
 			//check if the player completed the series of steps
-			if (model.game.endOfCurrentSeries){
-				//add additional step
-				//console.log("Wooo! You completed the series of steps. Adding an additional step");
-				//clear the pointer as well as the 
+			if (model.game.endOfCurrentSeries){ 
 				return this.addStep();
 			}
-			return	console.log("Correct! Keep going!");
 		}
 		else{
 			if (model.game.strictMode){
 				view.showWrongMove();
-				//model.game.restart();
-				//model.game.reset();
 				this.startGame();
 			}else{
 				//Notify the user they pressed the wrong button by playing a noise
@@ -164,8 +152,8 @@ var controller = {
 				view.disableColorBtns();
 				view.showWrongMove();
 				model.game.timeoutID = setTimeout(function(){
-								//repeat the series of button presses to remind the player of the patter
-						this.showSteps(model.game.pattern);
+				  //repeat the series of button presses to remind the player of the patter
+				  this.showSteps(model.game.pattern);
 				}.bind(this),1000);			
 			}
 		}
@@ -173,6 +161,7 @@ var controller = {
 };
 
 var view = {
+	//create mp3values associated to the buttons outside of the setUpEventListeners function
   setUpEventListeners: function(){
   	var colorBtns = document.getElementsByClassName('colored-btns')[0];
   	var buttonList = colorBtns.querySelectorAll("button");
@@ -199,7 +188,6 @@ var view = {
     });
 
   	toggleON.addEventListener("click", function(){
-  		console.log("switch-light element has been pressed");
     		controller.toggleTurnON();
      });
   },
@@ -216,30 +204,21 @@ var view = {
   showWrongMove: function(){
   	document.getElementById('count').innerHTML = "!!";
   },
-  hideWrongMove: function(){
-  	//want it to blink twice and then show 
-  	document.getElementById('count').innerHTML = "";
-  },
   showStrictMode: function(flag){
-  	if (flag == true){
-  		document.getElementsByClassName('strictModeIndicator')[0].classList.add('led-on');
-  	}else{
-  		document.getElementsByClassName('strictModeIndicator')[0].classList.remove('led-on');
-  	}
+  	var indicator = document.getElementsByClassName('strictModeIndicator')[0].classList;
+  	(flag == true) ? indicator.add('led-on') : indicator.remove('led-on');
   },
   showStep: function(step){
   	var gameWell = document.getElementsByClassName('colored-btns')[0];
   	var buttonList = gameWell.querySelectorAll("button")
-  	//this.resetOpacity(buttonList);
-  	//highlight current corresponding button 
   	buttonList[step].classList.add('light');
 
   	var mp3val = parseInt(step) + parseInt(1);
     var snd = new Audio("https://s3.amazonaws.com/freecodecamp/simonSound" + mp3val + ".mp3");
     snd.play();
   },
+  //remove full opacity from buttons inside colored-btns
   resetOpacity: function(step){
-  	//remove full opacity from buttons inside colored-btns
   	var colorBtns = document.getElementsByClassName('colored-btns')[0];
   	var buttonList = colorBtns.querySelectorAll("button");
 
