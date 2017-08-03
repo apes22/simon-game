@@ -24,6 +24,7 @@ body{
  position: relative;
  height: 100%;
  width: 100%;
+ 
 }
 
 .game-well{
@@ -33,9 +34,7 @@ body{
  width: 400px;
  margin: auto;
  margin-top: 20px;
- background-image: url("https://static.vecteezy.com/system/resources/previews/000/093/695/original/marble-background-vector.jpg")
-
- }
+}
 
 .colored-btns{
  height: 100%;
@@ -48,7 +47,6 @@ body{
  justify-content: space-around;
  /*align-items is used to align items in the container horizontally*/
  align-items: center;
-
 }
 
 .center-shadow{
@@ -172,6 +170,7 @@ button{
 
 button:focus {
 	outline: none !important;
+	-webkit-appearance: none;
 }
 
 button::-moz-focus-inner {
@@ -240,11 +239,15 @@ font-family: inherit !important;
 /*any devices smaller than a tablet*/
 @media only screen and  (max-width:550px) {
   .game-well{
-  	margin-top: 5px;
-    -moz-transform: scale(0.8);
-    -ms-transform: scale(0.8);
-    -o-transform: scale(0.8);
-    -webkit-transform: scale(0.8);
-    transform: scale(0.8);   
+  	width: 85vw;
+    height: 85vw;
   }
+  .name{
+  	font-size: 40px;
+  }
+
+  .center{
+
+  }
+
 }
