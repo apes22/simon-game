@@ -33,7 +33,9 @@ body{
  width: 400px;
  margin: auto;
  margin-top: 20px;
-}
+ background-image: url("https://static.vecteezy.com/system/resources/previews/000/093/695/original/marble-background-vector.jpg")
+
+ }
 
 .colored-btns{
  height: 100%;
@@ -88,6 +90,7 @@ body{
  background-color: white;
  color: #333;
  z-index: 1;
+ background-image: url("https://static.vecteezy.com/system/resources/previews/000/093/695/original/marble-background-vector.jpg")
 }
 
 .name{
@@ -237,6 +240,7 @@ font-family: inherit !important;
 /*any devices smaller than a tablet*/
 @media only screen and  (max-width:550px) {
   .game-well{
+  	margin-top: 5px;
     -moz-transform: scale(0.8);
     -ms-transform: scale(0.8);
     -o-transform: scale(0.8);
