@@ -97,8 +97,8 @@ var controller = {
 	},
 	toggleStrictMode: function(){
 		if (model.game.gameON){
-		model.game.toggleStrictMode();
-		view.showStrictMode(model.game.strictMode);
+		  model.game.toggleStrictMode();
+		  view.showStrictMode(model.game.strictMode);
 		}
 	},
 	addStep: function(){
@@ -108,8 +108,8 @@ var controller = {
 				this.startGame();
 			}.bind(this),1000);	
 		}else{
-		var updatedSteps = model.game.createNextStep();
-		this.showSteps(updatedSteps);
+		  var updatedSteps = model.game.createNextStep();
+		  this.showSteps(updatedSteps);
 		}
 	},
 	//The method wil present the current series of presses
@@ -169,9 +169,7 @@ var view = {
   	for (var i = 0; i < buttonList.length; i++) {
   		buttonList[i].addEventListener("click", function(){
     		controller.checkPress(parseInt(this.value));
-    		var mp3val = parseInt(this.value) + parseInt(1);
-    		var snd = new Audio("https://s3.amazonaws.com/freecodecamp/simonSound" + mp3val + ".mp3");
-        snd.play();
+    		view.playSound(this.value);
      	});
   	}
 
@@ -191,7 +189,9 @@ var view = {
     		controller.toggleTurnON();
      });
   },
-
+  playSound: function(value){
+  	document.getElementById("audio_" + value).play();
+  },
   disableColorBtns: function(){
   	document.getElementsByClassName('colored-btns')[0].classList.add('disable-clicks');
   },
@@ -212,10 +212,7 @@ var view = {
   	var gameWell = document.getElementsByClassName('colored-btns')[0];
   	var buttonList = gameWell.querySelectorAll("button")
   	buttonList[step].classList.add('light');
-
-  	var mp3val = parseInt(step) + parseInt(1);
-    var snd = new Audio("https://s3.amazonaws.com/freecodecamp/simonSound" + mp3val + ".mp3");
-    snd.play();
+  	this.playSound(step);
   },
   //remove full opacity from buttons inside colored-btns
   resetOpacity: function(step){
