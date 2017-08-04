@@ -203,6 +203,7 @@ var view = {
   },
   showWrongMove: function(){
   	document.getElementById('count').innerHTML = "!!";
+  		document.getElementById('error').play();
   },
   showStrictMode: function(flag){
   	var indicator = document.getElementsByClassName('strictModeIndicator')[0].classList;
