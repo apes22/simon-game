@@ -36,6 +36,11 @@ body{
  margin-top: 20px;
 }
 
+.winner-display{
+   display: none;
+   background-color: blue;
+}
+
 .colored-btns{
  height: 100%;
  width: 100%;
@@ -68,7 +73,7 @@ body{
 }
 
 .circle-border{
- border-width: 15px;
+ border-width: 12px;
  border-style: solid;
  border-color: #333;
  border-radius: 100%;
@@ -220,7 +225,6 @@ button::-moz-focus-inner {
 .label{
  font-size: 10px;
  margin-top: 5px;
-
 }
 
 .led{
@@ -240,16 +244,22 @@ font-family: inherit !important;
 
 /*any devices smaller than a tablet*/
 @media only screen and  (max-width:550px) {
+
   .game-well{
-  	width: 85vw;
-    height: 85vw;
+    width: 85vw;
+    height: 85vw
   }
+  
   .name{
-  	font-size: 40px;
+    margin-top: 10%;
+    font-size: 38px;
+  }
+  .label{
+   transform: scale(0.9);
+   margin-top: 3px;
   }
 
-  .center{
-
+  .strictModeIndicator{
+    right: 14%;
   }
-
 }
