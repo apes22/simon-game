@@ -1,4 +1,6 @@
 /*https://ghinda.net/css-toggle-switch/
+http://phonegap-tips.com/articles/essential-phonegap-css-webkit-tap-highlight-color.html
+https://developer.mozilla.org/en-US/docs/Web/API/Web_Audio_API/Using_Web_Audio_API
 */
 
 body{ 
@@ -70,6 +72,8 @@ body{
   cursor:pointer;
   -webkit-appearance: none;
   box-sizing: border-box;
+   -webkit-appearance: none;
+  -webkit-tap-highlight-color: rgba(0,0,0,0);
 }
 
 .circle-border{
@@ -135,45 +139,43 @@ body{
 }
 
 .green{
-	background-color: #00a74a;
-	border-top-left-radius: 100%;
+  background-color: #00a74a;
+  border-top-left-radius: 100%;
 }
 .green.light, .green:active{
-	background-color:#04f870;
+  background-color:#04f870;
 }
 
 .red{
-	background-color: #9f0f17;
-	border-top-right-radius: 100%;
+  background-color: #9f0f17;
+  border-top-right-radius: 100%;
 }
 .red.light, .red:active{
-	background-color:#ff4c4c;
+  background-color:#ff4c4c;
 }
 
 .blue{
-	background-color: #094a8f;
-	border-bottom-right-radius: 100%;
+  background-color: #094a8f;
+  border-bottom-right-radius: 100%;
 }
 .blue.light, .blue:active{
-	background-color: #0e80f8;
+  background-color: #0e80f8;
 }
 
 .yellow{
-	background-color: #cca707;
-	border-bottom-left-radius: 100%;
+  background-color: #cca707;
+  border-bottom-left-radius: 100%;
 }
 
 .yellow.light, .yellow:active{
-	background-color: #ffd108;	
+  background-color: #ffd108;  
 }
 
 button{
-	cursor:pointer;
-	border: 0;
-	-webkit-appearance: none;
+  cursor:pointer;
+  border: 0;
+ 
 }
-
-
 
 .startBtn{
  background-color: yellow;
@@ -183,18 +185,14 @@ button{
   background-color: red;
 }
 
-.btn:active{
-  /*box-shadow: 0 5px #666;*/
- /* transform: translateY(2px);*/
-}
 
 button:focus {
-	outline: none !important;
-	-webkit-appearance: none;
+  outline: 0;
+  -webkit-appearance: none;
 }
 
 button::-moz-focus-inner {
-	border: 0;
+  border: 0;
 }
 
 .btn{
@@ -236,10 +234,11 @@ button::-moz-focus-inner {
 }
 
 .switch-light{
-width: 25%;
-height: 5px !important;
-font-size: 0.5em;
-font-family: inherit !important;
+ width: 25%;
+ height: 5px !important;
+ font-size: 0.5em;
+ font-family: inherit !important;
+ cursor:pointer;
 }
 
 /*any devices smaller than a tablet*/
@@ -247,7 +246,9 @@ font-family: inherit !important;
 
   .game-well{
     width: 85vw;
-    height: 85vw
+    height: 85vw;
+    min-width: 300px;
+     min-height: 300px;
   }
   
   .name{
@@ -263,3 +264,6 @@ font-family: inherit !important;
     right: 14%;
   }
 }
+
+
+
