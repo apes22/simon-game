@@ -1,4 +1,3 @@
-//https://www.freecodecamp.com/challenges/build-a-simon-game
 const WINNING_STEPS = 5;
 
 //simonGame class
@@ -10,10 +9,9 @@ function simonGame(){
 	this.endOfCurrentSeries = false;
 	this.intervalID = "";
 	this.timeoutID = "";
-	this.isWinner = false;
 }
 
-//A method to create a random button press and returns the new series
+//A method that creates a random button press and returns the new pattern
 simonGame.prototype.createNextStep = function(){
 	var randomStep = Math.floor(Math.random()*4);
 	this.pattern.push(randomStep);
@@ -27,10 +25,10 @@ simonGame.prototype.play = function(buttonPress){
 		this.nextStepPointer++;
 		this.endOfCurrentSeries = (this.nextStepPointer == this.pattern.length) ? true : false;
 		return true;
-		//It was a bad press, so move pointer back to 0.
-	}else{
-		this.resetStepPointer();
+		
 	}
+	//It was a bad press, so move pointer back to 0.
+	this.resetStepPointer();
 	return false;
 };
 
@@ -52,6 +50,10 @@ simonGame.prototype.restart = function(){
 
 simonGame.prototype.toggleStrictMode = function(){
 	this.strictMode = !this.strictMode;
+};
+
+simonGame.prototype.isWinner = function(){
+	return this.pattern.length == WINNING_STEPS;
 };
 
 //model layer
@@ -102,11 +104,15 @@ var controller = {
 		}
 	},
 	addStep: function(){
-		if (model.isWinner){
-			view.showCount("YOU WON!");
-			model.game.timeoutID = setTimeout(function(){
-				this.startGame();
-			}.bind(this),1000);	
+		if (model.game.isWinner()){
+				//winning sound is 7 seconds
+				view.showWinner();
+				model.game.timeoutID = setTimeout(function(){
+					view.hideWinner();
+					model.game.timeoutID = setTimeout(function(){
+						this.startGame();
+						}.bind(this),100);	
+				}.bind(this),7000);	
 		}else{
 		  var updatedSteps = model.game.createNextStep();
 		  this.showSteps(updatedSteps);
@@ -123,7 +129,7 @@ var controller = {
 					}
 					view.showStep(steps[i]);
 					model.game.timeoutID = setTimeout(function(step){
-							view.resetOpacity(step);
+							view.resetOpacity();
 					},800, steps[i])
 					i++;
 				}else{
@@ -139,7 +145,9 @@ var controller = {
 		if (isPressCorrect){
 			//check if the player completed the series of steps
 			if (model.game.endOfCurrentSeries){ 
-				return this.addStep();
+			  model.game.timeoutID = setTimeout(function(){
+			  return this.addStep();
+			  }.bind(this),500);	
 			}
 		}
 		else{
@@ -148,7 +156,6 @@ var controller = {
 				this.startGame();
 			}else{
 				//Notify the user they pressed the wrong button by playing a noise
-				//console.log("Wrong move. Try again");
 				view.disableColorBtns();
 				view.showWrongMove();
 				model.game.timeoutID = setTimeout(function(){
@@ -161,7 +168,6 @@ var controller = {
 };
 
 var view = {
-	//create mp3values associated to the buttons outside of the setUpEventListeners function
   setUpEventListeners: function(){
   	var colorBtns = document.getElementsByClassName('colored-btns')[0];
   	var buttonList = colorBtns.querySelectorAll("button");
@@ -190,7 +196,16 @@ var view = {
      });
   },
   playSound: function(value){
-  	document.getElementById("audio_" + value).play();
+  	
+  	var soundName = {
+  		"0": "audio_0",
+  		"1": "audio_1",
+  		"2": "audio_2",
+  		"3": "audio_3",
+  		"winner": "winner",
+  		"error": "error"
+  	}
+  	document.getElementById(soundName[value]).play();
   },
   disableColorBtns: function(){
   	document.getElementsByClassName('colored-btns')[0].classList.add('disable-clicks');
@@ -202,8 +217,8 @@ var view = {
   	document.getElementById('count').innerHTML = count;
   },
   showWrongMove: function(){
+  	this.playSound("error");
   	document.getElementById('count').innerHTML = "!!";
-  		document.getElementById('error').play();
   },
   showStrictMode: function(flag){
   	var indicator = document.getElementsByClassName('strictModeIndicator')[0].classList;
@@ -216,15 +231,21 @@ var view = {
   	this.playSound(step);
   },
   //remove full opacity from buttons inside colored-btns
-  resetOpacity: function(step){
+  resetOpacity: function(){
   	var colorBtns = document.getElementsByClassName('colored-btns')[0];
   	var buttonList = colorBtns.querySelectorAll("button");
 
   	for (var i =0; i<buttonList.length; i++){
   			buttonList[i].classList.remove('light');
   	}
+  },
+  showWinner: function(){
+  	this.playSound("winner");
+  	return $(".winner-display").fadeIn(1000);
+  },
+  hideWinner: function(){
+  	return $(".winner-display").fadeOut(1000);
   }
-};
-
+}
 controller.initializeGame();
 view.setUpEventListeners();
